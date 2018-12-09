@@ -1,67 +1,67 @@
 Translations System Design
 # tables:
---------------------------------------------------------
+
 Tables to be implemented in a relational database, such as SQL
 
 
 ## user:
-----------------------------
+
 u_id       - UUID (PK)
 first_name - varchar(50)
 last_name  - varchar(50)
 password   - varchar(100) (hashed value stored)
 locale_id  - UUID (FK)
 ut_id      - UUID (FK)
-----------------------------
+
 
 ## user_type:
-----------------------------
+
 ut_id	  - UUID (PK)
 user_type - varchar(20) // can be engineer, translator, or user
-----------------------------
+
 
 ## locale:
 // contains the support locales by the system
-----------------------------
+
 locale_id - UUID (PK)
 locale    - varchar(4) (like EN_US, FR_CA, ...)
-----------------------------
+
 
 ## phrase: 
 // stores all phrases that exist in system
 // for phrases that can have pluralizations the phrase_plural field will not be NULL
 // substitutions inside the phrase can be made by substituting '%s' inside the phrase
 // for example 'Welcome to Wealthsimple, %s' is a phrase that can replace %s with user's name.
-----------------------------
+
 id            - UUID (PK)
 ph_id         - UUID
 phrase        - varchar(2000)
 phrase_plural - varchar(2000) // used for when this phrase has a plural variant
 locale_id     - UUID (FK)
-----------------------------
+
 
 ## view: 
-----------------------------
+
 v_id       - UUID (PK)
 view_name  - varchar(100)
-----------------------------
+
 
 ## view_phrase: 
 // each view in the system will have an associated v_id.
 // for each view you can gather the collection of phrases needed to render that view
-----------------------------
+
 id        - UUID (PK)
 v_id      - UUID (FK)
 ph_id     - UUID (FK)
-----------------------------
+
 
 
 # services:
---------------------------------------------------------
+
 
 
 ## phrase service:
-----------------------------
+
 routes:
 
 ### GET:
@@ -170,10 +170,10 @@ routes:
 	else:
 		STATUS: 404 ID not matched
 
-----------------------------
+
 
 ## view service:
-----------------------------
+
 routes:
 
 ### GET:
@@ -253,11 +253,11 @@ routes:
 	else:
 		STATUS: 404 ID not matched
 
-----------------------------
+
 
 
 ## view_phrase service:
-----------------------------
+
 routes:
 
 ### GET: 
@@ -347,10 +347,10 @@ routes:
 	else:
 		STATUS: 404 ID not matched
 
-----------------------------
+
 
 # front ends:
---------------------------------------------------------
+
 - Each front end page that gets served on an app or webpage can be specified by a view.
 - Every time a view gets rendered, the /view_phrase_aggregation route can be called to get all required phrases for a given locale. The responses to this can be cached by this service if necessary.
 	- to fully render a front end, first you could use a template renderer such as jinja to replace ph_id's in HTML with the actual phrases. THEN for each ph_id that has a replacement, use a 
