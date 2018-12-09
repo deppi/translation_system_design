@@ -271,7 +271,7 @@ routes:
 	else:
 		STATUS: 404 ID not found 
 
-	/view_phrase_aggregation/{v_id},{locale_id} - returns list of phrases based on v_id and locale
+/view_phrase_aggregation/{v_id},{locale_id} - returns list of phrases based on v_id and locale
 
 	1) reaches out to view service GET /view to validate v_id exists
 		- if doesn't exist return 404 - Invalid v_id
